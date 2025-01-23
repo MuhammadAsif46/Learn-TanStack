@@ -4,7 +4,7 @@ body {
 
 html {
   font-size: 62.5%;
-  font-family: "urbanist";
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 p,
@@ -23,7 +23,7 @@ h1 {
   text-align: center;
   font-size: 3.4rem;
   text-decoration: underline;
-  font-family: "syne";
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.1rem;
 }
 
@@ -135,7 +135,7 @@ footer {
 
 .accordion-question {
   font-weight: bold;
-  font-family: "Syne";
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.1rem;
   font-size: 1.7rem;
 }

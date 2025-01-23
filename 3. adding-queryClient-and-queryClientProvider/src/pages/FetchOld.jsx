@@ -18,6 +18,7 @@ const FetchOld = () => {
 
   return (
     <div>
+      <h1>Fetch Data Old Version</h1>
       <ul className="section-accordion">
         {posts?.length > 0 ? (
           posts?.map((post) => (
@@ -27,7 +28,7 @@ const FetchOld = () => {
             </li>
           ))
         ) : (
-          <div>No Data Found</div>
+          <h1>Loading....</h1>
         )}
       </ul>
     </div>
