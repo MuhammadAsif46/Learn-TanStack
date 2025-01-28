@@ -8,13 +8,22 @@ const FetchOld = () => {
 
   const data = async () => {
     const res = await fetchPosts();
-    setPosts(res);
+    if (res.status === 200) {
+      setPosts(res);      // set the fetched posts data
+      setLoader(false);   // turn off loading state
+    }else {
+      setError(true); // set error state
+      setLoader(false); // turn off loading state
+    }
     console.log("res-->", res);
   };
 
   useEffect(() => {
     data();
   }, []);
+
+  if(loader) return <p>Loadin.....</p>
+  if(error) return <p>Something went Wrong!</p>
 
   return (
     <div>
