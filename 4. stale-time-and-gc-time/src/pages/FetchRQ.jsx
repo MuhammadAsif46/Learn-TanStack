@@ -15,6 +15,8 @@ const FetchRQ = () => {
   const { data, isLoading, isPending, isError, error } = useQuery({
     queryKey: ["posts"], // work in useState
     queryFn: fetchPosts, // work in useEffect
+    gcTime: 1000,
+    staleTime: 5000, // work 
   });
 
   // react query version 4 define loading and isLoading but version 5 change
