@@ -46,11 +46,6 @@ const FetchRQ = () => {
           <h1>Loading....</h1>
         )}
       </ul>
-      <div className="pagination-section contanier">
-        <button>Prev</button>
-        <h2>{pageNumber}</h2>
-        <button>Next</button>
-      </div>
     </div>
   );
 };
