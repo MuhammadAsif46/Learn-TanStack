@@ -1,7 +1,7 @@
 import React from "react";
-import { fetchPosts } from "../api";
+import { deletePost, fetchPosts } from "../api";
 import { NavLink } from "react-router-dom";
-import {keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 const FetchRQ = () => {
@@ -20,10 +20,10 @@ const FetchRQ = () => {
     placeholderData: keepPreviousData, // not show loading state use then placeholderData
   });
 
-  // react query version 4 define loading and isLoading but version 5 change
-  // isLoading name to isPending and loading name to pending
+  const deteleMutation = useMutation({
+    mutationFn: (id) => deletePost(id),
+  });
 
-  // if (isLoading) return <p>Loadin.....</p>;
   if (isPending) return <p>Loadin.....</p>;
   if (isError) return <p>Error: {error.message || "Something went Wrong!"}</p>;
 
@@ -39,6 +39,7 @@ const FetchRQ = () => {
                 <p>{post.title}</p>
                 <p>{post.body}</p>
               </NavLink>
+              <button onClick={() => deteleMutation.mutate(post.id)}>Delete</button>
             </li>
           ))
         ) : (
@@ -47,8 +48,13 @@ const FetchRQ = () => {
       </ul>
 
       <div className="pagination-section contanier">
-        <button disabled={pageNumber === 0 ? true : false} onClick={() => setPageNumber((prev) => prev - 3)}>Prev</button>
-        <p>{(pageNumber / 3) + 1}</p>
+        <button
+          disabled={pageNumber === 0 ? true : false}
+          onClick={() => setPageNumber((prev) => prev - 3)}
+        >
+          Prev
+        </button>
+        <p>{pageNumber / 3 + 1}</p>
         <button onClick={() => setPageNumber((prev) => prev + 3)}>Next</button>
       </div>
     </div>

@@ -45,3 +45,19 @@
    - Submitting forms (e.g., login, signup, creating a post, updating user profile).
    - Performing API calls to update or delete existing data.
    - Handling optimistic updates by modifying UI before waiting for a response from the server.
+
+---
+
+## Mutate():
+
+The `mutate() function` is used to execute the mutation in React Query.
+The process is the same whether you're:
+
+- `Deleting data`
+- `Updating data`
+- `Creating new data`
+
+When you call`.mutate()`, it tells React Query to run the mutation function defined
+inside the useMutation hook. This is needed because the `mutation is an action
+that changes data`, unlike queries, which are used to fetch data and are often
+auto-executed.

@@ -23,3 +23,9 @@ export const fetchPostById = async (id) => {
   }
 };
 
+// delete post handler
+
+export const deletePost = (id) => {
+  return axios.delete(`${baseUrl}/posts/${id}`);
+}
+
