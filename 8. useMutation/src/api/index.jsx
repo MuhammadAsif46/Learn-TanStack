@@ -28,4 +28,9 @@ export const fetchPostById = async (id) => {
 export const deletePost = (id) => {
   return axios.delete(`${baseUrl}/posts/${id}`);
 }
+// update post handler
+
+export const updatePost = (id) => {
+  return axios.put(`${baseUrl}/posts/${id}`, {title: "I have Update this title"});
+}
 
