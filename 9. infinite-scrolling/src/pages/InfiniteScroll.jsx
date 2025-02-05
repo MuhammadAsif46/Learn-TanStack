@@ -4,18 +4,34 @@ import { fetchUsers } from "../api";
 import { useEffect } from "react";
 
 const InfiniteScroll = () => {
-  const { data } = useInfiniteQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-    getNextPageParam: (lastPage, allPages) => {
-      console.log("lastPage:-->", lastPage, allPages);
-      return lastPage.length === 10 ? allPages.length + 1 : undefined;
-    },
-  });
+  const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["users"],
+      queryFn: fetchUsers,
+      getNextPageParam: (lastPage, allPages) => {
+        console.log("lastPage:-->", lastPage, allPages);
+        return lastPage.length === 10 ? allPages.length + 1 : undefined;
+      },
+    });
 
   console.log("data-->", data);
 
+  const scrollHandler = () => {
+    const bottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 1;
+    if (bottom && hasNextPage) {
+      fetchNextPage();
+    }
+  };
 
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, [hasNextPage]);
+
+  if(status === "loading") return <h1>Loading...</h1>
+  if(status === "error") return <h1>Error Fetching data</h1>
 
   return (
     <div>
@@ -38,6 +54,7 @@ const InfiniteScroll = () => {
           ))}
         </ul>
       ))}
+      {isFetchingNextPage && <h1>Loading more ...</h1>}
     </div>
   );
 };
