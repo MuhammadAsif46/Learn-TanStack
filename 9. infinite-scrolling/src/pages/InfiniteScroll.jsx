@@ -2,6 +2,7 @@ import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchUsers } from "../api";
 import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const InfiniteScroll = () => {
   const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } =
@@ -14,24 +15,35 @@ const InfiniteScroll = () => {
       },
     });
 
-  console.log("data-->", data);
+  //   console.log("data-->", data);
 
-  const scrollHandler = () => {
-    const bottom =
-      window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight - 1;
-    if (bottom && hasNextPage) {
+  //   without library scrolling use case
+  //   const scrollHandler = () => {
+  //     const bottom =
+  //       window.innerHeight + window.scrollY >=
+  //       document.documentElement.scrollHeight - 1;
+  //     if (bottom && hasNextPage) {
+  //       fetchNextPage();
+  //     }
+  //   };
+
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
+  useEffect(() => {
+    if (inView && hasNextPage) {
       fetchNextPage();
     }
-  };
+  }, [inView, fetchNextPage, hasNextPage]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
-  }, [hasNextPage]);
+  //   without library scrolling use case
+  //   useEffect(() => {
+  //     window.addEventListener("scroll", scrollHandler);
+  //     return () => window.removeEventListener("scroll", scrollHandler);
+  //   }, [hasNextPage]);
 
-  if(status === "loading") return <h1>Loading...</h1>
-  if(status === "error") return <h1>Error Fetching data</h1>
+  if (status === "loading") return <h1>Loading...</h1>;
+  if (status === "error") return <h1>Error Fetching data</h1>;
 
   return (
     <div>
@@ -54,7 +66,15 @@ const InfiniteScroll = () => {
           ))}
         </ul>
       ))}
-      {isFetchingNextPage && <h1>Loading more ...</h1>}
+      {/*  without library scrolling use case */}
+      {/* {isFetchingNextPage && <h1>Loading more ...</h1>} */}
+      <h1 ref={ref} style={{ padding: "20px", textAlign: "center" }}>
+        {isFetchingNextPage
+          ? "Loading more ..."
+          : hasNextPage
+          ? "Scroll downto load more"
+          : "No more users"}
+      </h1>
     </div>
   );
 };
